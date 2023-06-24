@@ -7,7 +7,7 @@ class SetOfEquations:
         self.b = None
         self.x = None
         self.res = None
-        self.residuum_vector = None
+        self.norm_history = None
         self.L = None
         self.U = None
 
@@ -24,4 +24,4 @@ class SetOfEquations:
         temp = 0
         for i in range(0, self.N):
             temp += self.res[i] * self.res[i]
-        self.residuum_vector.append(math.sqrt(temp))
+        self.norm_history.append(math.sqrt(temp))

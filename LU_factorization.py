@@ -1,7 +1,7 @@
-import math
-import time
-import utils
 import copy
+import time
+
+import utils
 
 
 def solve(setOfEquations, verbose=True):
@@ -12,7 +12,7 @@ def solve(setOfEquations, verbose=True):
     # data initialization
     setOfEquations.x = [0 for _ in range(0, setOfEquations.N)]
     setOfEquations.res = [0 for _ in range(0, setOfEquations.N)]
-    setOfEquations.residuum_vector = []
+    setOfEquations.norm_history = []
 
     # core algorithm
     LU_decomposition(setOfEquations, verbose=False)
@@ -26,7 +26,7 @@ def solve(setOfEquations, verbose=True):
     t = time.time() - t
     if verbose:
         print(f"Czas obliczeń: {t} s")
-        print(f"Norma z residuum: {setOfEquations.residuum_vector[0]}")
+        print(f"Norma z residuum: {setOfEquations.norm_history[0]}")
         print("")
 
     return t
@@ -37,7 +37,7 @@ def LU_decomposition(setOfEquations, verbose=True):
         print("Faktoryzacja LU")
 
     setOfEquations.U = copy.deepcopy(setOfEquations.A)
-    setOfEquations.L = utils.build_diagonal_matrix(setOfEquations.N, 1)
+    setOfEquations.L = utils.build_band_matrix(setOfEquations.N, 1)
 
     for i in range(0, setOfEquations.N):
         for j in range(i + 1, setOfEquations.N):

@@ -9,7 +9,7 @@ def solve(setOfEquations, stop=1e-6, verbose=True):
     iteration_count = 0
     setOfEquations.x = [0 for _ in range(0, setOfEquations.N)]
     setOfEquations.res = [0 for _ in range(0, setOfEquations.N)]
-    setOfEquations.residuum_vector = []
+    setOfEquations.norm_history = []
 
     # main loop
     while True:
@@ -27,20 +27,22 @@ def solve(setOfEquations, stop=1e-6, verbose=True):
         iteration_count = iteration_count + 1
 
         # Sprawdzenie zbieżności normy residuum
-        if iteration_count > 1 and setOfEquations.residuum_vector[-1] > setOfEquations.residuum_vector[-2]:
+        if iteration_count == 1:
+            limit = setOfEquations.norm_history[0] * 1e3
+        elif setOfEquations.norm_history[-1] > limit:
             if verbose:
                 print("Metoda Gaussa-Seidla niezbieżna dla tego układu równań")
             break
 
         # Warunek końca obliczeń
-        if setOfEquations.residuum_vector[-1] < stop:
+        if setOfEquations.norm_history[-1] < stop:
             break
 
     t = time.time() - t
     if verbose:
         print(f"Czas obliczeń: {t} s")
         print(f"Liczba iteracji: {iteration_count}")
-        print(f"Najniższa norma z residuum: {min(setOfEquations.residuum_vector)}")
+        print(f"Najniższa norma z residuum: {min(setOfEquations.norm_history)}")
         print("")
 
     return t

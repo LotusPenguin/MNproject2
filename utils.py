@@ -1,7 +1,3 @@
-import math
-import SetOfEquations
-
-
 def print_matrix(A, N):
     for i in range(N):
         for j in range(N):
@@ -15,7 +11,7 @@ def print_vector(a, N):
     print("")
 
 
-def build_diagonal_matrix(N, a1, diagonal_width=1, a2=None, a3=None):
+def build_band_matrix(N, a1, diagonal_width=1, a2=None, a3=None):
     A = [[0 for _ in range(N)] for _ in range(N)]
     for i in range(N):
         for j in range(N):
@@ -30,6 +26,3 @@ def build_diagonal_matrix(N, a1, diagonal_width=1, a2=None, a3=None):
                 elif diagonal_width > 2 and (i == j + 2 or i == j - 2):
                     A[i][j] = a3
     return A
-
-
-
