@@ -1,4 +1,5 @@
 from math import sin
+from matplotlib.ticker import MaxNLocator
 
 import matplotlib.pyplot as plt
 
@@ -50,8 +51,7 @@ def task_b(setOfEquations):
     jacobi.solve(setOfEquations, 1e-9)
     plt.plot(range(1, len(setOfEquations.norm_history) + 1), setOfEquations.norm_history, 'b-o')
     plt.yscale("log")
-    plt.title("Wykres normy residuum (Zadanie B)")
-    plt.xticks(range(1, len(setOfEquations.norm_history) + 1))
+    plt.title("Norma residuum w kolejnych iteracjach (Zadanie B)")
     plt.yticks([1e-10, 1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2])
     plt.xlabel("Numer iteracji")
     plt.ylabel("Wartość normy euklidesowej wektora rozwiązań")
@@ -60,10 +60,11 @@ def task_b(setOfEquations):
     gauss_seidel.solve(setOfEquations, 1e-9)
     plt.plot(range(1, len(setOfEquations.norm_history) + 1), setOfEquations.norm_history, 'r-o')
     plt.legend(["Metoda Jacobiego", "Metoda Gaussa-Seidla"])
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.show()
 
     # Zadanie B, porównanie czasu obliczeń
-    iterations = 10
+    iterations = 100
     time_jacobi = []
     time_gs = []
     for i in range(iterations):
@@ -72,11 +73,11 @@ def task_b(setOfEquations):
 
     plt.plot(range(1, len(time_jacobi) + 1), time_jacobi, 'b-o')
     plt.plot(range(1, len(time_gs) + 1), time_gs, 'r-o')
-    plt.title(f"Wykres czasu trwania algorytmów, {iterations} iteracji")
+    plt.title(f"Czas trwania algorytmów, {iterations} iteracji")
     plt.ylabel("Czas [s]")
     plt.xlabel("Numer iteracji")
-    plt.xticks(range(1, iterations + 1))
     plt.legend(["Metoda Jacobiego", "Metoda Gaussa-Seidla"])
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.show()
 
     avg_jacobi = 0
@@ -98,17 +99,19 @@ def task_c(setOfEquations):
     jacobi.solve(setOfEquations)
     plt.plot(range(1, len(setOfEquations.norm_history) + 1), setOfEquations.norm_history, 'b-o')
     plt.yscale("log")
-    plt.title("Wykres normy residuum, metoda Jacobiego (Zadanie C)")
+    plt.title("Norma residuum w kolejnych iteracjach, metoda Jacobiego (Zadanie C)")
     plt.xlabel("Numer iteracji")
     plt.ylabel("Wartość normy euklidesowej wektora rozwiązań")
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.show()
 
     gauss_seidel.solve(setOfEquations)
     plt.plot(range(1, len(setOfEquations.norm_history) + 1), setOfEquations.norm_history, 'r-o')
     plt.yscale("log")
-    plt.title("Wykres normy residuum, metoda Gaussa-Seidla (Zadanie C)")
+    plt.title("Norma residuum w kolejnych iteracjach, metoda Gaussa-Seidla (Zadanie C)")
     plt.xlabel("Numer iteracji")
     plt.ylabel("Wartość normy euklidesowej wektora rozwiązań")
+    plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
     plt.show()
 
 
@@ -129,9 +132,9 @@ def task_e():
         time_lu.append(LU_factorization.solve(setOfEquations, verbose=False))
         print(f"Metoda faktoryzacji LU: {time_lu[-1]} s")
 
-    plt.plot(time_jacobi, 'b-o')
-    plt.plot(time_gs, 'r-o')
-    plt.plot(time_lu, 'g-o')
+    plt.plot(N, time_jacobi, 'b-o')
+    plt.plot(N, time_gs, 'r-o')
+    plt.plot(N, time_lu, 'g-o')
     plt.legend(["Metoda Jacobiego", "Metoda Gaussa-Seidla", "Metoda faktoryzacji LU"])
     plt.title("Czas trwania obliczeń w zależności od liczby niewiadomych")
     plt.xlabel("Liczba niewiadomych")
